@@ -1,0 +1,8 @@
+// This is just a placeholder to ensure the folder exists, usually server actions are imported directly. 
+// Note: In layout I used `action="/auth/logout"` which implies a route handler. 
+// But I should use `import { logout } from "@/lib/actions/auth"` and bind it to a form or button.
+// For the layout sidebar, I'll fix the logout form to use the action directly in a client component or server form.
+// Since layout.tsx is a server component, I can pass the action to a form. 
+// I will verify the layout code I wrote in Step 233. 
+// Code: <form action="/auth/logout" method="POST"> 
+// This is incorrect if there is no route handler. I should update layout.tsx to use the imported action.
