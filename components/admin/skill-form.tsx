@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { useActionState, useEffect } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { createSkill, updateSkill } from "@/lib/actions/skill"
+import { createSkill, updateSkill, type SkillActionState } from "@/lib/actions/skill"
 import Link from "next/link"
 import { ArrowLeft, Loader2 } from "lucide-react"
 
@@ -27,14 +27,15 @@ export function SkillForm({ initialData }: SkillFormProps) {
         ? updateSkill.bind(null, initialData.id)
         : createSkill
 
-    const [state, formAction, isPending] = useActionState(action, {})
+    const initialState: SkillActionState = { success: false }
+    const [state, formAction, isPending] = useActionState(action, initialState)
 
     useEffect(() => {
         if (state.success) {
             toast.success(initialData ? "Skill updated" : "Skill created")
             router.push("/admin/skills")
-        } else if (state.error && typeof state.error === 'string') {
-            toast.error(state.error)
+        } else if (state.message) {
+            toast.error(state.message)
         }
     }, [state, router, initialData])
 
@@ -59,7 +60,7 @@ export function SkillForm({ initialData }: SkillFormProps) {
                         placeholder="Technology Name"
                         defaultValue={initialData?.title}
                     />
-                    {state.error?.title && <p className="text-red-500 text-sm">{String(state.error.title)}</p>}
+                    {state.errors?.title && <p className="text-red-500 text-sm">{String(state.errors.title)}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -71,7 +72,7 @@ export function SkillForm({ initialData }: SkillFormProps) {
                         placeholder="Brief description..."
                         defaultValue={initialData?.description}
                     />
-                    {state.error?.description && <p className="text-red-500 text-sm">{String(state.error.description)}</p>}
+                    {state.errors?.description && <p className="text-red-500 text-sm">{String(state.errors.description)}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -83,7 +84,7 @@ export function SkillForm({ initialData }: SkillFormProps) {
                         placeholder="https://..."
                         defaultValue={initialData?.link || ""}
                     />
-                    {state.error?.link && <p className="text-red-500 text-sm">{String(state.error.link)}</p>}
+                    {state.errors?.link && <p className="text-red-500 text-sm">{String(state.errors.link)}</p>}
                 </div>
 
                 <div className="flex justify-end pt-4">

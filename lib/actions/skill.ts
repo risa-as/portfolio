@@ -5,6 +5,17 @@ import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
 // ... types
+export type SkillActionState = {
+    errors?: {
+        title?: string[]
+        description?: string[]
+        link?: string[]
+        order?: string[]
+    }
+    message?: string
+    success?: boolean
+}
+
 const SkillSchema = z.object({
     title: z.string().min(1, "Title is required"),
     description: z.string().min(1, "Description is required"),
@@ -24,7 +35,7 @@ export async function getSkill(id: string) {
     })
 }
 
-export async function createSkill(prevState: any, formData: FormData) {
+export async function createSkill(prevState: SkillActionState, formData: FormData): Promise<SkillActionState> {
     const rawData = {
         title: formData.get("title"),
         description: formData.get("description"),
@@ -35,7 +46,7 @@ export async function createSkill(prevState: any, formData: FormData) {
 
     if (!validatedData.success) {
         return {
-            error: validatedData.error.flatten().fieldErrors,
+            errors: validatedData.error.flatten().fieldErrors,
         }
     }
 
@@ -58,11 +69,11 @@ export async function createSkill(prevState: any, formData: FormData) {
         revalidatePath("/")
         return { success: true }
     } catch (error) {
-        return { error: "Failed to create skill" }
+        return { message: "Failed to create skill" }
     }
 }
 
-export async function updateSkill(id: string, prevState: any, formData: FormData) {
+export async function updateSkill(id: string, prevState: SkillActionState, formData: FormData): Promise<SkillActionState> {
     const rawData = {
         title: formData.get("title"),
         description: formData.get("description"),
@@ -73,7 +84,7 @@ export async function updateSkill(id: string, prevState: any, formData: FormData
 
     if (!validatedData.success) {
         return {
-            error: validatedData.error.flatten().fieldErrors,
+            errors: validatedData.error.flatten().fieldErrors,
         }
     }
 
@@ -90,7 +101,7 @@ export async function updateSkill(id: string, prevState: any, formData: FormData
         revalidatePath("/")
         return { success: true }
     } catch (error) {
-        return { error: "Failed to update skill" }
+        return { message: "Failed to update skill" }
     }
 }
 
