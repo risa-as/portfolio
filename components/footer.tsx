@@ -30,7 +30,7 @@ export default function Footer() {
 
                 <div className="pt-12 border-t border-neutral-900 flex flex-col items-center gap-4 text-sm text-neutral-500">
                     <p>Powered by Next.js & Coffee ☕</p>
-                    <p>Developed with ❤️. © {new Date().getFullYear()} All rights reserved.</p>
+                    <p>Developed with Risa_99. © {new Date().getFullYear()} All rights reserved.</p>
                 </div>
             </motion.div>
         </footer>
