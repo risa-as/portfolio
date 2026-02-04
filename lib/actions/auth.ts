@@ -10,8 +10,8 @@ const key = new TextEncoder().encode(SECRET_KEY)
 // Simple hardcoded admin credentials for this portfolio scope
 // In a real app with multiple users, we'd query the DB.
 // For now, checks against ADMIN_PASSWORD env var or defaults.
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com"
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123"
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "ayadqaid12345@gmail.com"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin12345"
 
 export async function login(prevState: any, formData: FormData) {
     const email = formData.get("email") as string
